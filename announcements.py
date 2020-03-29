@@ -168,7 +168,7 @@ class Announcements:
 
     def get_three_consecutive(self,new_list):
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
+        flag = False
         index = 0
         length = len(new_list)
         num_of_tierces = 0
@@ -181,13 +181,17 @@ class Announcements:
             else:
                 num_of_tierces = 0
             if num_of_tierces == 1:
+                flag = True
                 break
             index += 1
-        return new_list[index:index+3]
+        if flag == False:
+            return []
+        else:
+            return new_list[index:index+3]
 
     def get_four_consecutive(self,new_list):
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
+        flag = False
         index = 0
         length = len(new_list)
         num_of_tierces = 0
@@ -200,13 +204,17 @@ class Announcements:
             else:
                 num_of_tierces = 0
             if num_of_tierces == 2:
+                flag = True
                 break
             index += 1
-        return new_list[index-1:index+3]
+        if flag == False:
+            return []
+        else:
+            return new_list[index-1:index+3]
 
     def get_five_consecutive(self,new_list):
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
+        flag = False
         index = 0
         length = len(new_list)
         num_of_tierces = 0
@@ -219,9 +227,13 @@ class Announcements:
             else:
                 num_of_tierces = 0
             if num_of_tierces == 3:
+                flag = True
                 break
             index += 1
-        return new_list[index-2:index+3]
+        if flag == False:
+            return []
+        else:
+            return new_list[index-2:index+3]
 
     def remove_three_consecutive(self,new_list):
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
@@ -304,7 +316,7 @@ class Announcements:
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
         
         index = len(new_list)-1
-        print(index)
+        
         while index >= 4:
             card1_value = new_list[index].get_value()
             card2_value = new_list[index-1].get_value()
