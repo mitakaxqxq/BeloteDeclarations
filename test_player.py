@@ -60,9 +60,31 @@ class TestPlayer(unittest.TestCase):
         player.set_hand(list_of_cards)
 
         expected = [Card('7', 'clubs'), Card('7', 'diamonds'), Card('7', 'hearts'), Card('7', 'spades'),
-                        Card('8', 'clubs'), Card('8', 'diamonds'), Card('8', 'hearts'),Card('8', 'spades')]
+                        Card('8', 'clubs'), Card('8', 'hearts'), Card('8', 'diamonds'),Card('8', 'spades')]
 
-        self.assertTrue(expected == player.get_hand(), 'Names are equal')
+        self.assertTrue(expected == player.get_hand(), 'Lists are equal')
+
+    def test_if_get_announcements_representation_returns_correctly(self):
+
+        player = Player("Ivan")
+        player.set_hand([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+        
+        result = player.get_announcements_representation()
+
+        expected = [[Card('10','clubs'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades')]]
+
+        self.assertEqual(result,expected)
+
+    def test_if_get_announced_announcements_returns_correctly(self):
+
+        player = Player("Ivan")
+        player.set_hand([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+        
+        result = player.get_announced_announcements()
+
+        expected = ['carre']
+
+        self.assertEqual(result,expected)
 
 if __name__ == '__main__':
     unittest.main()
