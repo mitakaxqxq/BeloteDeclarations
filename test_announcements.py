@@ -315,7 +315,7 @@ class TestSortCards(unittest.TestCase):
 
 
 
-class testCarreFinder(unittest.TestCase):
+class ТestCarreFinder(unittest.TestCase):
 
 	def test_if_it_find_one_count_of_carre_in_front_of_cards(self):
 		announced=Announcements([Card('J','clubs'),Card('J','hearts'),Card('J','diamonds'),Card('J','spades'),Card('Q','hearts'),Card('K','diamonds'),Card('10','spades'),Card('A','spades')])
@@ -347,7 +347,8 @@ class testCarreFinder(unittest.TestCase):
 		
 		self.assertEqual(result,[])	
 
-class testgetAnnouncedAnnouncements(unittest.TestCase):
+class ТestgetAnnouncedAnnouncements(unittest.TestCase):
+	
 	def test_get_Announced_one_belote_find(self):
 		announced=Announcements([Card('Q','diamonds'),Card('K','hearts'),Card('K','diamonds'),Card('Q','clubs'),Card('8','clubs'),Card('8','hearts'),Card('8','spades'),Card('8','diamonds')])
 
@@ -402,9 +403,8 @@ class testgetAnnouncedAnnouncements(unittest.TestCase):
 
 		self.assertEqual(result,['carre'])
 
-
-
-class testGetRepresentationOfAnnouncements(unittest.TestCase):
+class ТestGetRepresentationOfAnnouncements(unittest.TestCase):
+	
 	def test_get_Representation_tierce_and_two_belotes(self):
 		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('7','clubs'),Card('8','clubs'),Card('9','clubs'),Card('10','diamonds')])
 
