@@ -1,7 +1,81 @@
-from declarations import Announcements
+from announcements import Announcements
+from card import Card
 import unittest
 
 
+class TestRemovingThreeConsecutiveCards(unittest.TestCase):
+
+	def test_when_there_is_tierce_and_no_cards_before_the_tierce_and_some_cards_after_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','spades'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('10','clubs')])
+		grouped = announced.group_cards()[1]
+		self.assertEqual(announced.remove_three_consecutive(grouped),[Card('K','diamonds')])
+		
+	def test_when_there_is_tierce_and_some_cards_before_the_tierce_and_after_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('10','clubs')])
+		grouped = announced.group_cards()[1]
+		self.assertEqual(announced.remove_three_consecutive(grouped),[Card('7','diamonds'),Card('K','diamonds')])
+		
+	def test_when_there_is_tierce_and_some_cards_before_the_tierce_and_no_cards_after_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','spades'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('10','clubs')])
+		grouped = announced.group_cards()[1]
+		self.assertEqual(announced.remove_three_consecutive(grouped),[Card('7','diamonds')])
+
+	def test_when_there_is_tierce_and_no_cards_before_and_after_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','spades'),Card('9','diamonds'),Card('K','spades'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('10','clubs')])
+		grouped = announced.group_cards()[1]
+		self.assertEqual(announced.remove_three_consecutive(grouped),[])
+		
+class TestRemovingFourConsecutiveCards(unittest.TestCase):
+		
+	def test_when_there_is_quarte_and_some_cards_before_the_quarte_and_after_it(self):
+
+		announced=Announcements([Card('Q','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('8','diamonds')])
+		grouped = announced.group_cards()[0]
+		self.assertEqual(announced.remove_four_consecutive(grouped),[Card('Q','diamonds'),Card('K','diamonds')])
+		
+	def test_when_there_is_quarte_and_some_cards_before_the_quarte_and_no_cards_after_it(self):
+
+		announced=Announcements([Card('Q','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','spades'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('8','diamonds')])
+		grouped = announced.group_cards()[0]
+		self.assertEqual(announced.remove_four_consecutive(grouped),[Card('Q','diamonds')])
+
+	def test_when_there_is_quarte_and_no_cards_before_the_quarte_and_some_after_it(self):
+
+		announced=Announcements([Card('Q','spades'),Card('7','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('8','diamonds')])
+		grouped = announced.group_cards()[0]
+		self.assertEqual(announced.remove_four_consecutive(grouped),[Card('K','diamonds')])
+	
+		
+	def test_when_there_is_quarte_and_no_cards_before_the_quarte_and_after_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','spades'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('10','clubs')])
+		grouped = announced.group_cards()[1]
+		self.assertEqual(announced.remove_four_consecutive(grouped),[])
+
+class TestRemovingFiveConsecutiveCards(unittest.TestCase):
+		
+	def test_when_there_is_quinte_and_some_cards_after_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('8','diamonds')])
+		grouped = announced.group_cards()[0]
+		self.assertEqual(announced.remove_five_consecutive(grouped),[Card('K','diamonds')])
+		
+	def test_when_there_is_quinte_and_some_cards_before_it(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('Q','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('7','diamonds')])
+		grouped = announced.group_cards()[0]
+		self.assertEqual(announced.remove_five_consecutive(grouped),[Card('7','diamonds')])
+
+	def test_when_there_is_quinte_and_no_cards_before_and_after_it(self):
+		
+		announced=Announcements([Card('J','diamonds'),Card('Q','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('7','spades')])
+		grouped = announced.group_cards()[0]
+		self.assertEqual(announced.remove_five_consecutive(grouped),[])
+'''
 class TestBelote(unittest.TestCase):
 	def test_belote_announcement_with_announce_noTrums(self):
 		announcements=Announcements(['Qs','Ks'])
@@ -219,7 +293,7 @@ class testCarreFinder(unittest.TestCase):
 
 
 
-
+'''
 
 
 if __name__=='__main__':
