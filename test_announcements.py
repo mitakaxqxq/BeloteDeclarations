@@ -1,7 +1,145 @@
 from announcements import Announcements
 from card import Card
 import unittest
+class TestGroupingOfCards(unittest.TestCase):
 
+	def test_when_there_are_cards_of_all_four_suits(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','clubs'),Card('9','diamonds'),Card('K','clubs'),Card('Q','hearts'),Card('10','hearts'),Card('10','spades'),Card('8','clubs')])
+		
+		result = announced.group_cards()
+		expected = [[Card('7','clubs'),Card('8','clubs'),Card('K','clubs')],[Card('9','diamonds'),Card('J','diamonds')],[Card('10','hearts'),Card('Q','hearts')],[Card('10','spades')]]
+		
+		self.assertEqual(result,expected,'Lists of lists are equal')
+
+	def test_when_there_are_cards_of_three_suits(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','clubs'),Card('9','diamonds'),Card('K','clubs'),Card('Q','hearts'),Card('10','hearts'),Card('10','diamonds'),Card('8','clubs')])
+		
+		result = announced.group_cards()
+		expected = [[Card('7','clubs'),Card('8','clubs'),Card('K','clubs')],[Card('9','diamonds'),Card('10','diamonds'),Card('J','diamonds')],[Card('10','hearts'),Card('Q','hearts')]]
+		
+		self.assertEqual(result,expected,'Lists of lists are equal')
+
+	def test_when_there_are_cards_of_two_suits(self):
+
+		announced=Announcements([Card('J','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('Q','hearts'),Card('10','hearts'),Card('8','hearts'),Card('A','hearts')])
+		
+		result = announced.group_cards()
+		expected = [[Card('7','diamonds'),Card('9','diamonds'),Card('J','diamonds'),Card('K','diamonds')],[Card('8','hearts'),Card('10','hearts'),Card('Q','hearts'),Card('A','hearts')]]
+		
+		self.assertEqual(result,expected,'Lists of lists are equal')
+
+	def test_when_there_are_cards_of_one_suit(self):
+
+		announced=Announcements([Card('A','diamonds'),Card('7','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('Q','diamonds'),Card('J','diamonds'),Card('10','diamonds'),Card('8','diamonds')])
+		result = announced.group_cards()
+		expected = [[Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('Q','diamonds'),Card('K','diamonds'),Card('A','diamonds')]]
+		
+		self.assertEqual(result,expected,'Lists of lists are equal')
+
+class TestGetThreeConsecutive(unittest.TestCase):
+
+	def test_when_there_are_no_three_consecutive(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','spades'),Card('J','spades')]
+
+		announced=Announcements(test_list)
+		grouped = announced.group_cards()
+		result_one = announced.get_three_consecutive(grouped[0])
+		result_two = announced.get_three_consecutive(grouped[1])
+		expected = []
+
+		self.assertEqual(result_one,expected,'Lists are equal')
+		self.assertEqual(result_two,expected,'Lists are equal')
+
+
+	def test_when_there_are_three_consecutive_once(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('J','spades')]
+
+		announced=Announcements(test_list)
+		result = announced.get_three_consecutive(test_list)
+
+		expected = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts')]
+
+		self.assertEqual(result,expected,'Lists are equal')
+
+	def test_when_there_are_three_consecutive_twice(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('J','spades'),Card('Q','spades'),Card('K','spades')]
+
+		announced=Announcements(test_list)
+		grouped = announced.group_cards()
+		result_one = announced.get_three_consecutive(grouped[0])
+		result_two = announced.get_three_consecutive(grouped[1])
+
+		expected_one = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts')]
+		expected_two = [Card('J','spades'),Card('Q','spades'),Card('K','spades')]
+		
+		self.assertEqual(result_one,expected_one,'Lists are equal')
+		self.assertEqual(result_two,expected_two,'Lists are equal')
+
+class TestGetFourConsecutive(unittest.TestCase):
+
+	def test_when_there_are_no_four_consecutive_cards(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('J','spades')]
+
+		announced=Announcements(test_list)
+		result = announced.get_four_consecutive(test_list)
+
+		expected = []
+
+		self.assertEqual(result,expected,'Lists are equal')
+
+	def test_when_there_are_four_consecutive_cards(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('10','hearts')]
+
+		announced=Announcements(test_list)
+		result = announced.get_four_consecutive(test_list)
+
+		expected = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('10','hearts')]
+
+		self.assertEqual(result,expected,'Lists are equal')
+
+class TestGetFiveConsecutive(unittest.TestCase):
+
+	def test_when_there_are_no_five_consecutive_cards(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('J','spades'),Card('Q','spades')]
+
+		announced=Announcements(test_list)
+		result = announced.get_five_consecutive(test_list)
+
+		expected = []
+
+		self.assertEqual(result,expected,'Lists are equal')
+
+	def test_when_there_are_five_consecutive_cards(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('10','hearts'),Card('J','hearts')]
+
+		announced=Announcements(test_list)
+		result = announced.get_five_consecutive(test_list)
+
+		expected = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('10','hearts'),Card('J','hearts')]
+
+		self.assertEqual(result,expected,'Lists are equal')
+
+class TestGetHigherQuinte(unittest.TestCase):
+
+	def test_if_there_are_two_quintes_returns_higher(self):
+
+		test_list = [Card('7','hearts'),Card('8','hearts'),Card('9','hearts'),Card('10','hearts'),Card('J','hearts'),Card('Q','hearts')]
+
+		announced=Announcements(test_list)
+		result = announced.get_higher_quinte(test_list)
+
+		expected = [Card('8','hearts'),Card('9','hearts'),Card('10','hearts'),Card('J','hearts'),Card('Q','hearts')]
+
+		self.assertEqual(result,expected,'Lists are equal')
 
 class TestRemovingThreeConsecutiveCards(unittest.TestCase):
 
