@@ -75,225 +75,223 @@ class TestRemovingFiveConsecutiveCards(unittest.TestCase):
 		announced=Announcements([Card('J','diamonds'),Card('Q','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('7','spades')])
 		grouped = announced.group_cards()[0]
 		self.assertEqual(announced.remove_five_consecutive(grouped),[])
-'''
+
 class TestBelote(unittest.TestCase):
 	def test_belote_announcement_with_announce_noTrums(self):
-		announcements=Announcements(['Qs','Ks'])
-
-		result=Announcements.announce_belote(announcements,noTrums=True)
-		print(result)
+		announced=Announcements([Card('J','diamonds'),Card('Q','diamonds'),Card('9','diamonds'),Card('K','diamonds'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades'),Card('7','spades')])
+		result=announced.announce_belote('no trums')
 
 		self.assertEqual(result,'')
 
-	def test_belote_announcement_with_announce_allTrums(self):
-		announcements=Announcements(['Qs','Ks','7c','8h','Ad','Js','10s'])
 
-		result=Announcements.announce_belote(announcements,allTrums=True)
+	def test_belote_announcement_with_announce_allTrums(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+
+		result=announced.announce_belote('all trumps')
 
 		self.assertEqual(result,'belote')
 
 	def test_belote_announcement_with_announce_allTrums_with_no_belote(self):
-		announcements=Announcements(['Qs','Kh'])
+		announced=Announcements([Card('Q','clubs'),Card('K','spades'),Card('K','diamonds'),Card('Q','hearts'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
 
-		result=Announcements.announce_belote(announcements,allTrums=True)
+		result=announced.announce_belote('all trumps')
 
 		self.assertEqual(result,'')
 
 	def test_belote_announcement_with_announce_clubs(self):
-		announcements=Announcements(['Qc','Kc'])
+		announced=Announcements([Card('Q','clubs'),Card('K','clubs'),Card('K','diamonds'),Card('Q','hearts'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
 
-		result=Announcements.announce_belote(announcements,clubs=True)
+		result=announced.announce_belote('clubs')
 
 		self.assertEqual(result,'belote')
 
 	def test_belote_announcement_with_announce_with_different_of_clubs(self):
-		announcements=Announcements(['Qh','Kh'])
+		announced=Announcements([Card('Q','clubs'),Card('K','hearts'),Card('K','diamonds'),Card('Q','hearts'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
 
-		result=Announcements.announce_belote(announcements,allTrums=False,clubs=True)
+		result=announced.announce_belote('clubs')
+
 
 		self.assertEqual(result,'')
 
 	def test_belote_announcement_with_announce_hearts(self):
-		announcements=Announcements(['Qh','Kh'])
+		announced=Announcements([Card('Q','clubs'),Card('K','hearts'),Card('K','diamonds'),Card('Q','hearts'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
 
-		result=Announcements.announce_belote(announcements,hearts=True)
+		result=announced.announce_belote('hearts')
+
 
 		self.assertEqual(result,'belote')
 	def test_belote_announcement_with_announce_diamonds(self):
-		announcements=Announcements(['Qd','Kd'])
+		announced=Announcements([Card('Q','diamonds'),Card('K','hearts'),Card('K','diamonds'),Card('Q','hearts'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
 
-		result=Announcements.announce_belote(announcements,diamonds=True)
+		result=announced.announce_belote('diamonds')
 
 		self.assertEqual(result,'belote')
 	def test_belote_announcement_with_announce_spades(self):
-		announcements=Announcements(['Qs','Ks'])
+		announced=Announcements([Card('Q','spades'),Card('K','spades'),Card('K','diamonds'),Card('Q','hearts'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
 
-		result=Announcements.announce_belote(announcements,spades=True)
+		result=announced.announce_belote('spades')
+
 
 		self.assertEqual(result,'belote')
 
-class testConsecutiveCardsFindFunction(unittest.TestCase):
-	def test_if_it_is_noTrums_case(self):
-		announcements=Announcements(['7s','8s', '9h'])
 
-		result=Announcements.find_consecutive_cards(announcements,noTrums=True)
-
-		self.assertEqual(result,[],'they are')
-
-class TestConsecutiveCards(unittest.TestCase):
+class TestSortCards(unittest.TestCase):
 
 	def test_for_sort_by_ranks(self):
 
-		announcements=Announcements(['7s','8s', '9h'])
+		announced=Announcements([Card('7','clubs'),Card('8','clubs'),Card('9','clubs')])
 
-		result=Announcements.sort_cards_by_ranks(announcements)
+		result=announced.sort_cards_by_ranks()
 
-		self.assertEqual(result,['9h','8s','7s'])
+		self.assertEqual(result,[Card('7','clubs'),Card('8','clubs'),Card('9','clubs')])
 
 	def test_for_sort_by_ranks_with_two_values(self):
-		announcements=Announcements(['7s','8s'])
+		announced=Announcements([Card('7','clubs'),Card('8','clubs')])
 
-		result=Announcements.sort_cards_by_ranks(announcements)
+		result=announced.sort_cards_by_ranks()
 
-		self.assertEqual(result,['7s','8s'])
+		self.assertEqual(result,[Card('7','clubs'),Card('8','clubs')])
 
 	def test_sort_by_rank_eight_with_diffent_value(self):
-		announcements=Announcements(['8s','9s','10s','Qh','Kh','Qs','Ks'])
+		announced=Announcements([Card('7','clubs'),Card('8','clubs'),Card('9','hearts'),Card('8','diamonds'),Card('Q','hearts'),Card('K','diamonds'),Card('10','spades'),Card('A','spades')])
 
-		result=Announcements.sort_cards_by_ranks(announcements)
+		result=announced.sort_cards_by_ranks()
 
-		self.assertEqual(result,['Qh','Kh','10s','8s','9s','Qs','Ks'])
-
-
-	def test_sort_by_value_two_with_same_value(self):
-		announcements=Announcements(['7s','7s'])
-
-		result=Announcements.sort_cards_by_value(announcements)
-
-		self.assertEqual(result,['7s','7s'])
-
-	def test_sort_by_value_two_with_diffent_value(self):
-		announcements=Announcements(['7s','8s'])
-
-		result=Announcements.sort_cards_by_value(announcements)
-
-		self.assertEqual(result,['7s','8s'])
-
-
-	def test_sort_by_value_two_with_diffent_value(self):
-		announcements=Announcements(['7s','8h'])
-
-		result=Announcements.sort_cards_by_value(announcements)
-
-		self.assertEqual(result,['7s','8h'])
+		self.assertEqual(result,[Card('7','clubs'),Card('8','clubs'),Card('8','diamonds'),Card('K','diamonds'),Card('Q','hearts'),Card('9','hearts'),Card('10','spades'),Card('A','spades')])
 
 
 	def test_sort_by_value_eight_with_diffent_value(self):
-		announcements=Announcements(['8s','9s','10s','Qh','Kh','Qs','Ks'])
+		announced=Announcements([Card('7','clubs'),Card('8','clubs'),Card('9','hearts'),Card('8','diamonds'),Card('Q','hearts'),Card('K','diamonds'),Card('10','spades'),Card('A','spades')])
 
-		result=Announcements.sort_cards_by_value(announcements)
+		result=announced.sort_cards_by_value()
 
-		self.assertEqual(result,['8s','9s','10s','Qh','Qs','Kh','Ks'])
+		self.assertEqual(result,[Card('7','clubs'),Card('8','clubs'),Card('8','diamonds'),Card('9','hearts'),Card('10','spades'),Card('Q','hearts'),Card('K','diamonds'),Card('A','spades')])
+
 
 	def test_sort_cards_by_ranks_and_values_function(self):
-		announcements=Announcements(['8s','9s','10s','Qh','Kh','Qs','Ks'])
+		announced=Announcements([Card('7','clubs'),Card('8','clubs'),Card('9','hearts'),Card('8','diamonds'),Card('Q','hearts'),Card('K','diamonds'),Card('10','spades'),Card('A','spades')])
 
-		result=Announcements.sort_cards_by_rank_and_value(announcements)
+		result=announced.sort_cards_by_rank_and_value()
 
-		self.assertEqual(result,['Qh','Kh','8s','9s','10s','Qs','Ks'])
-
-	def test_if_there_is_one_triece(self):
-		announcements=Announcements(['7d','8d','9d','10h','Jc','7s','8h','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['7d','8d','9d']])
-
-	def test_if_there_is_one_quarte(self):
-		announcements=Announcements(['7d','8d','9d','10d','Jc','7s','8h','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['7d','8d','9d','10d']])
-
-	def test_if_there_is_one_quinte(self):
-		announcements=Announcements(['7d','8d','9d','10d','Jd','7s','8h','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['7d','8d','9d','10d','Jd']])
-
-	def test_if_there_is_one_quinte_and_tierce(self):
-		announcements=Announcements(['7d','8d','9d','10d','Jd','7s','8s','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['7d','8d','9d','10d','Jd'],['7s','8s','9s']])
-
-	def test_if_there_is_two_tiercies(self):
-		announcements=Announcements(['7d','8d','9d','10h','Jh','7s','8s','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['7d','8d','9d'],['7s','8s','9s']])
-
-	def test_if_there_is_quarte_and_tierce(self):
-		announcements=Announcements(['7d','8d','9d','10d','Jh','7s','8s','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['7d','8d','9d','10d'],['7s','8s','9s']])
-
-	def test_if_there_is_quarte_and_tierce(self):
-		announcements=Announcements(['8s','9s','10s','Qh','Kh','Qs','Ks'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[['8s','9s','10s']])
-
-
-	def test_if_there_is_no_consecutive_cards(self):
-		announcements=Announcements(['7d','8c','9c','10d','Jh','7s','8h','9s'])
-
-		result=Announcements.find_consecutive_cards(announcements)
-		
-		self.assertEqual(result,[])
+		self.assertEqual(result,[Card('7','clubs'),Card('8','clubs'),Card('8','diamonds'),Card('K','diamonds'),Card('9','hearts'),Card('Q','hearts'),Card('10','spades'),Card('A','spades')])
 
 
 
 class testCarreFinder(unittest.TestCase):
 
 	def test_if_it_find_one_count_of_carre_in_front_of_cards(self):
-		announcements=Announcements(['Js','Jd','Jh','Qs','Jc','Qc','Kh','Ad'])
+		announced=Announcements([Card('J','clubs'),Card('J','hearts'),Card('J','diamonds'),Card('J','spades'),Card('Q','hearts'),Card('K','diamonds'),Card('10','spades'),Card('A','spades')])
 
-		result=Announcements.carre_find_function(announcements)
-		
-		self.assertEqual(result,[['Js','Jd','Jh','Jc']])	
+		result=announced.carre_find_function()
+
+		self.assertEqual(result,[[Card('J','hearts'),Card('J','diamonds'),Card('J','spades'),Card('J','clubs')]])
+
+
 
 	def test_if_it_find_two_of_count_of_carre(self):
-		announcements=Announcements(['Js','Jd','Jh','Qs','Jc','Qc','Qh','Qd'])
+		announced=Announcements([Card('J','clubs'),Card('J','hearts'),Card('J','diamonds'),Card('J','spades'),Card('Q','hearts'),Card('Q','diamonds'),Card('Q','clubs'),Card('Q','spades')])
+		result=announced.carre_find_function()
+		self.assertEqual(result,[[Card('J','clubs'),Card('J','hearts'),Card('J','diamonds'),Card('J','spades')],[Card('Q','hearts'),Card('Q','diamonds'),Card('Q','clubs'),Card('Q','spades')]])
+	
 
-		result=Announcements.carre_find_function(announcements)
-		
-		self.assertEqual(result,[['Js','Jd','Jh','Jc'],['Qs','Qc','Qh','Qd']])	
 
 	def test_if_there_is_no_carre(self):
-		announcements=Announcements(['8s','7d','10h','10s','9c','Ac','Ah','Kd'])
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('10','clubs'),Card('8','hearts'),Card('7','spades'),Card('J','diamonds')])
 
-		result=Announcements.carre_find_function(announcements)
+		result=announced.carre_find_function()
 		
 		self.assertEqual(result,[])	
 
-	def test_if_it_find_carre_in_the_middle_of_cards(self):
-		announcements=Announcements(['Js','Jd','Jh','10s','Jc','7c','Ah','Kd'])
+	def test_if_it_find_carre_of_8(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('8','clubs'),Card('8','hearts'),Card('8','spades'),Card('8','diamonds')])
 
-		result=Announcements.carre_find_function(announcements)
+		result=announced.carre_find_function()
 		
-		self.assertEqual(result,[['Jh','Js','Jc','Jd']])	
+		self.assertEqual(result,[])	
+
+class testgetAnnouncedAnnouncements(unittest.TestCase):
+	def test_get_Announced_one_belote_find(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','hearts'),Card('K','diamonds'),Card('Q','clubs'),Card('8','clubs'),Card('8','hearts'),Card('8','spades'),Card('8','diamonds')])
+
+		announced.announce_belote('all trumps')
+		result=announced.getAnnouncedannouncements()
+
+		self.assertEqual(result,['belote'])
+
+	def test_get_Announced_two_belote_find(self):
+
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('8','clubs'),Card('8','hearts'),Card('8','spades'),Card('8','diamonds')])
+
+		announced.announce_belote('all trumps')
+		result=announced.getAnnouncedannouncements()
+
+		self.assertEqual(result,['belote','belote'])
+
+	def test_get_Announced_no_belote_find(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('8','clubs'),Card('8','hearts'),Card('8','spades'),Card('8','diamonds')])
+
+		announced.announce_belote('no trumps')
+		result=announced.getAnnouncedannouncements()
+
+		self.assertEqual(result,[])
+
+	def test_get_Announced_two_belotes_and_carre(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+
+		announced.announce_belote('all trumps')
+		announced.carre_find_function()
+		result=announced.getAnnouncedannouncements()
+
+		self.assertEqual(result,['belote','belote','carre'])
+
+	def test_get_Announced_tierce_belotes_and_carre(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('7','clubs'),Card('8','clubs'),Card('9','clubs'),Card('10','diamonds')])
+
+		announced.announce_belote('all trumps')
+		announced.carre_find_function()
+		announced.find_consecutive_cards()
+		result=announced.getAnnouncedannouncements()
+
+		self.assertEqual(result,['belote','belote','tierce'])
+
+	def test_get_Announced_carre(self):
+		announced=Announcements([Card('8','diamonds'),Card('J','diamonds'),Card('A','diamonds'),Card('Q','clubs'),Card('10','clubs'),Card('10','hearts'),Card('10','diamonds'),Card('10','spades')])
+
+		announced.announce_belote('all trumps')
+		announced.carre_find_function()
+		announced.find_consecutive_cards()
+		result=announced.getAnnouncedannouncements()
+
+		self.assertEqual(result,['carre'])
 
 
 
-'''
+class testGetRepresentationOfAnnouncements(unittest.TestCase):
+	def test_get_Representation_tierce_and_two_belotes(self):
+		announced=Announcements([Card('Q','diamonds'),Card('K','clubs'),Card('K','diamonds'),Card('Q','clubs'),Card('7','clubs'),Card('8','clubs'),Card('9','clubs'),Card('10','diamonds')])
+
+		announced.announce_belote('all trumps')
+		announced.carre_find_function()
+		announced.find_consecutive_cards()
+		result=announced.getRepresentationOfannouncements()
+
+		self.assertEqual(result,[[Card('Q','diamonds'),Card('K','diamonds')],[Card('Q','clubs'),Card('K','clubs')],[Card('7','clubs'),Card('8','clubs'),Card('9','clubs')]])
+
+	def test_get_Representation_tierce_and_quinte(self):
+		announced=Announcements([Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('K','diamonds'),Card('A','diamonds')])
+
+		announced.find_consecutive_cards()
+		result=announced.getRepresentationOfannouncements()
+
+		self.assertEqual(result,[[Card('10','diamonds'),Card('J','diamonds'),Card('Q','diamonds'),Card('K','diamonds'),Card('A','diamonds')],[Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds')]])
+
+	def test_get_Representation_belote_representation(self):
+		announced=Announcements([Card('7','clubs'),Card('8','clubs'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','hearts'),Card('J','hearts'),Card('K','diamonds'),Card('A','diamonds')])
+
+		announced.announce_belote("all trumps")
+		result=announced.getRepresentationOfannouncements()
+		
+		self.assertEqual(result,[[Card('Q','diamonds'),Card('K','diamonds')]])
 
 
 if __name__=='__main__':

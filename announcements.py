@@ -27,17 +27,19 @@ class Announcements:
         return self.repr_of_announcements
 
     def find_belote_cards(self):
+        helping_dictionary = {'c': 'clubs','d': 'diamonds','h': 'hearts','s': 'spades'}
         list_of_belotes_in_desk=[]
         list_of_found_cuples=[]
         for card in self.cards:
             value=card.get_value()
             suit=card.get_suit()
             if value=='Q':
-                other_half='K'+suit
-                if other_half in self.cards:
+                other_half=Card('K',helping_dictionary.get(suit))
+                if other_half in self.cards:          
                     list_of_found_cuples.append(card)
                     list_of_found_cuples.append(other_half)
                     list_of_belotes_in_desk.append(list_of_found_cuples)
+                    list_of_found_cuples=[]
         return list_of_belotes_in_desk
 
 
@@ -56,31 +58,30 @@ class Announcements:
                 self.repr_of_announcements.append(lists[i])
                 i=i+1
         elif announcement == 'clubs':
-            belote=['Qc','Kc']
+            belote=[Card('Q','clubs'),Card('K','clubs')]
             if belote in lists:
                 string='belote'
                 self.announced_announcements.append(string)
                 self.repr_of_announcements.append(belote)
-        elif hearts:
-            belote=['Qh','Kh']
+        elif announcement=='hearts':
+            belote=[Card('Q','hearts'),Card('K','hearts')]
             if belote in lists:
                 string='belote'
                 self.announced_announcements.append(string)
                 self.repr_of_announcements.append(belote)
-        elif diamonds:
-            belote=['Qd','Kd']
+        elif announcement=='diamonds':
+            belote=[Card('Q','diamonds'),Card('K','diamonds')]
             if belote in lists:
                 string='belote'
                 self.announced_announcements.append(string)
                 self.repr_of_announcements.append(belote)
-        elif spades:
-            belote=['Qs','Ks']
+        elif announcement=='spades':
+            belote=[Card('Q','spades'),Card('K','spades')]
             if belote in lists:
                 string='belote'
                 self.announced_announcements.append(string)
                 self.repr_of_announcements.append(belote)
         return string
-
 
     def change_rank(char):
         if char=='c':
