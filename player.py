@@ -12,13 +12,17 @@ class Player:
         return self.__name
 
     def set_announcements(self,announcements):
-        self.__announcements = announcements
+        self.__announcements = Announcements(announcements)
+        self.__announcements.find_consecutive_cards()
+        self.__announcements.carre_find_function()
+        self.__announcements.check_card_in_two_announcements()
 
     def set_hand(self,cards):
         if len(cards) != 8:
             raise ValueError('You must add exactly eight cards!')
         else:
             self.__cards = cards
+            self.set_announcements(self.__cards)
 
     def get_hand(self):
         return self.__cards
@@ -31,5 +35,14 @@ class Player:
         if not isinstance(name,str):
             raise TypeError('Player name must be of string type!')
 
-    def get_announcements(self):
+    def get_announced_announcements(self):
+        return self.__announcements.getAnnouncedannouncements()
+
+    def get_announcements_representation(self):
         return self.__announcements.getRepresentationOfannouncements()
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
