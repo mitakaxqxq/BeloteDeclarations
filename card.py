@@ -3,26 +3,33 @@ class Card:
     def __init__(self,value,suit):
         self.validate_values(value,suit)
 
-        self.value = value
-        self.suit = suit
+        self.__value = value
+        self.__suit = suit
 
     def __str__(self):
-        helping_dictionary = {'clubs':'c','diamonds':'d','hearts':'h','spades':'s'}
+        helping_dictionary = {'clubs': 'c','diamonds': 'd','hearts': 'h','spades': 's'}
 
-        return self.value + helping_dictionary[self.suit]
+        return self.__value + helping_dictionary[self.__suit]
 
     def __repr__(self):
-        helping_dictionary = {'clubs': 'c', 'diamonds': 'd', 'hearts': 'h',  'spades': 's'}
+        helping_dictionary = {'clubs': 'c','diamonds': 'd','hearts': 'h','spades': 's'}
 
-        return self.value + helping_dictionary[self.suit]
+        return self.__value + helping_dictionary[self.__suit]
 
     def __eq__(self,other):
-        return self.value == other.value and self.suit == other.suit
+        return self.__value == other.__value and self.__suit == other.__suit
 
     def __lt__(self,other):
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
 
-        return helping_dictionary[self.value] < helping_dictionary[other.value] 
+        return helping_dictionary[self.get_value()] < helping_dictionary[other.get_value()] 
+
+    def get_value(self):
+        return self.__value
+
+    def get_suit(self):
+        helping_dictionary = {'clubs': 'c','diamonds': 'd','hearts': 'h','spades': 's'}
+        return helping_dictionary[self.__suit]
 
     @staticmethod
     def validate_values(value,suit):
