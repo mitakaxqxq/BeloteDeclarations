@@ -1,3 +1,5 @@
+from announcements import Announcements
+
 class Player:
 
     def __init__(self,name):
@@ -5,13 +7,12 @@ class Player:
 
         self.__name = name
         self.__hand = []
-        self.__declarations = []
-
+        self.__announcements = Announcements(self.__hand)
     def get_name(self):
         return self.__name
 
-    def set_declarations(self,declarations):
-        self.__declarations = declarations
+    def set_announcements(self,announcements):
+        self.__announcements = announcements
 
     def set_hand(self,cards):
         if len(cards) != 8:
@@ -29,3 +30,6 @@ class Player:
     def validate_name(name):
         if not isinstance(name,str):
             raise TypeError('Player name must be of string type!')
+
+    def get_announcements(self):
+        return self.__announcements.getRepresentationOfannouncements()
