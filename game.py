@@ -34,6 +34,18 @@ class Game:
 		for player in self.__order:
 			player.set_hand(self.__deck.deal())
 
+	def write_results_function(self):
+		with open("results.txt","w") as f:
+			name_of_first_team=self.__team1.get_name()
+			f.write("     ")
+			f.write(name_of_first_team)
+			f.write("     |")
+			name_of_second_team=self.__team2.get_name()
+			f.write("     ")
+			f.write(name_of_second_team)
+			f.write("     \n")
+			f.write("=================================")
+			
 	def play(self): #to do
 		pass
 
