@@ -8,6 +8,7 @@ class Announcements:
 		self.announced_announcements=[]
 		self.repr_of_announcements=[]
 
+
 	def __str__(self):
 		return f'{self.announced}'
 
@@ -571,30 +572,44 @@ class Announcements:
 
 	def check_card_in_two_announcements(self):
 		if 'carre' in self.getAnnouncedannouncements():
-			list_of_carres = self.carre_find_function()[0]
+			list_of_announcements = self.getRepresentationOfannouncements()
+			
+			for elem in list_of_announcements:
+				if elem[0].get_value()==elem[1].get_value():
+					
+					list_of_carres = elem
+					
+					break
 			
 			carre_value = list_of_carres[0].get_value()
 			
 			flag = False
 
-			list_of_announcements = self.getRepresentationOfannouncements()
-			
-			for announcement in list_of_announcements:
+			for announcement in self.getRepresentationOfannouncements():
 				
 				for card in announcement:
-					if carre_value == card.get_value():
+					if carre_value == card.get_value() and announcement != list_of_carres:
+						
 						flag = True
 						
 						break
-				
+				#print(announcement)
 				if flag == True:
-					list_of_announcements.remove(announcement)
-			
-			return list_of_announcements
+					if len(announcement) == 3:
+						self.announced_announcements.remove('tierce')
+
+					elif len(announcement) == 4:
+						self.announced_announcements.remove('quarte')
+
+					elif len(announcement) == 5:
+						self.announced_announcements.remove('quinte')
+
+					self.repr_of_announcements.remove(announcement)
 
 
 def main():
-
+	pass
+'''
 	#announced=Announcements([Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('K','diamonds'),Card('A','diamonds')])
 
 	announced=Announcements([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
@@ -613,9 +628,10 @@ def main():
 
 	#announced=Announcements([Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('K','diamonds'),Card('A','diamonds')])
 
-	'''announced.find_consecutive_cards()
+	announced.find_consecutive_cards()
 
 	print(announced.getRepresentationOfannouncements())
 	print(announced.getAnnouncedannouncements())'''
+
 if __name__=='__main__':
 	main()
