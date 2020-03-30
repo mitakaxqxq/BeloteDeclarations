@@ -2,6 +2,7 @@ import unittest
 
 from player import Player
 from team import Team
+from card import Card
 
 class TestTeam(unittest.TestCase):
 	def test_raises_exception_when_team_name_is_not_string(self):
@@ -91,6 +92,20 @@ class TestTeam(unittest.TestCase):
 		result = team.get_player2()
 
 		self.assertTrue(expected == result,'Players are equal')
+
+
+	def test_if_get_highest_announcement_returns_correct_list(self):
+
+		player1 = Player("Ivan")
+		player1.set_hand([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+
+		player2 = Player("Petar")
+		player2.set_hand([Card('J','diamonds'),Card('K','diamonds'),Card('9','hearts'),Card('Q','diamonds'),Card('10','hearts'),Card('8','hearts'),Card('10','diamonds'),Card('10','clubs')])
+
+		team = Team('Team1',[player1,player2])
+
+		result = team.get_highest_announcement()
+		expected = [Card('J','diamonds'),Card('K','diamonds'),Card('Q','diamonds'),Card('10','diamonds')]
 
 if __name__ == '__main__':
 	unittest.main()
