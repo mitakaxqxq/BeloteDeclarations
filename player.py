@@ -17,15 +17,18 @@ class Player:
         self.__announcements.carre_find_function()
         self.__announcements.check_card_in_two_announcements()
 
+    def get_belotes(self,contract):
+        self.__announcements.announce_belote(contract)
+
     def set_hand(self,cards):
         if len(cards) != 8:
             raise ValueError('You must add exactly eight cards!')
         else:
-            self.__cards = cards
-            self.set_announcements(self.__cards)
+            self.__hand = cards
+            self.set_announcements(cards)
 
     def get_hand(self):
-        return self.__cards
+        return self.__hand
 
     def __eq__(self,other):
         return self.__name == other.__name
