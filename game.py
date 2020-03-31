@@ -1,6 +1,7 @@
 import random
 from deck import Deck 
 from team import Team
+import json
 
 class Game:
 
@@ -18,6 +19,8 @@ class Game:
         self.__order = [self.__team1.get_player1(),self.__team2.get_player1(),self.__team1.get_player2(),self.__team2.get_player2()]
 
         self.__contract = ''
+
+        self.game_count = 0
 
     def get_order(self):
         return self.__order
@@ -201,6 +204,8 @@ class Game:
 
         current_round = 1
 
+        self.game_count+=1
+
         while self.__team1_score <= 150 and self.__team2_score <= 150:
 
             self.__deck.shuffle_deck()
@@ -223,14 +228,49 @@ class Game:
 
             self.write_team_scores(round_points_team1,round_points_team2,current_round)
             
-            current_round += 1
+            result=self.round_dict_to_json(current_round)
+
+            self.write_to_json_file(result)
 
             self.rotate_players()
+            
+            current_round += 1
 
         if self.__team1_score > self.__team2_score:
             return 1
         else:
             return 2
+
+
+    def round_dict_to_json(self,current_round):
+        round_dict = {f'Round {current_round}':
+                            {
+                                "Game type": self.__contract,
+                                str(self.__team1.get_name()):
+                                    {self.__team1.get_player1().get_name(): 
+                                        {"Cards": str(self.__team1.get_player1().get_hand())},
+                                        "announcement": str(self.__team1.get_player1().get_announced_announcements()), 
+                                    self.__team1.get_player2().get_name(): 
+                                        {"Cards": str(self.__team1.get_player2().get_hand())},
+                                        "announcement": str(self.__team1.get_player2().get_announced_announcements()), 
+                                    "Points": self.__team1_score},
+                                str(self.__team2.get_name()):
+                                    {self.__team2.get_player1().get_name(): 
+                                        {"Cards": str(self.__team2.get_player1().get_hand())},
+                                    "announcement": str(self.__team2.get_player1().get_announced_announcements()), 
+                                    self.__team2.get_player2().get_name(): 
+                                        {"Cards": str(self.__team2.get_player2().get_hand())},
+                                        "announcement": str(self.__team2.get_player2().get_announced_announcements()), 
+                                    "Points": self.__team2_score}
+                            }
+                    }
+
+        return round_dict
+
+    def write_to_json_file(self,round_dictionaries):
+        with open('data.json', 'a+') as f:
+            json_data = json.dumps({f"Game {self.game_count}" :round_dictionaries}, indent=4)
+            f.write(json_data)
 
 
     @staticmethod
