@@ -1,5 +1,6 @@
 from deck import Deck
 from card import Card
+from magic_strings import *
 
 class Announcements:
 
@@ -114,461 +115,102 @@ class Announcements:
         
         return string
 
-    def change_rank(char):
-        if char=='c':
-            char='clubs'
+    def group_cards_by_value(self):
+        dict_of_cards = {}
         
-        elif char=='d':
-            char='diamonds'
-        
-        elif char=='h':
-            char='hearts'
-        
-        elif char=='s':
-            char='spades'
-        
-        return char
+        for card in sorted(self.cards):
+            if card.get_value() in dict_of_cards.keys():
+                dict_of_cards[card.get_value()].append(card)
+            else:
+                dict_of_cards[card.get_value()] = [card]
 
-    def sort_cards_by_ranks(self):
-        helping_dictionary = {'c': 1, 'd': 2, 'h': 3,  's': 4}
-        
-        new_list=self.cards
-        
-        for i in range(0,len(new_list)-1):
-            
-            for j in range(i,len(new_list)):
-                
-                card1=new_list[i]
-                card2=new_list[j]
-                
-                suit_f=card1.get_suit()
-                suit_s=card2.get_suit()
-                
-                if helping_dictionary.get(suit_f)>helping_dictionary.get(suit_s):
-                    
-                    temp=new_list[i]
-                    new_list[i]=new_list[j]
-                    new_list[j]=temp
-        
-        return new_list
+        return dict_of_cards
 
-    def sort_cards_by_value(self):
-        new_list=self.cards
+    def group_cards_by_suit(self):
+        dict_of_cards = {}
         
-        for i in range(0,len(new_list)-1):
-            
-            for j in range(i,len(new_list)):
-                
-                card1=new_list[i]
-                card2=new_list[j]
-                
-                new_card1=Card(card1.get_value(),Announcements.change_rank(card1.get_suit()))
-                new_card2=Card(card2.get_value(),Announcements.change_rank(card2.get_suit()))
-                
-                if new_card2<new_card1:
-                    
-                    temp=new_list[i]
-                    new_list[i]=new_list[j]
-                    new_list[j]=temp
+        for card in sorted(self.cards):
+            if card.get_suit() in dict_of_cards.keys():
+                dict_of_cards[card.get_suit()].append(card)
+            else:
+                dict_of_cards[card.get_suit()] = [card]
         
-        return new_list
+        return dict_of_cards
 
-    def sort_cards_by_rank_and_value(self):
-        sorted_cards_by_rank=Announcements.sort_cards_by_ranks(self)
-        
-        sorted_list=sorted_cards_by_rank
-        
-        for i in range(0,len(sorted_list)-1):
-            
-            for j in range(i,len(sorted_list)):
-                
-                card1=sorted_list[i]
-                card2=sorted_list[j]
-                
-                new_card1=Card(card1.get_value(),Announcements.change_rank(card1.get_suit()))
-                new_card2=Card(card2.get_value(),Announcements.change_rank(card2.get_suit()))
-                
-                suit_f=card1.get_suit()
-                suit_s=card2.get_suit()
-                
-                if new_card2<new_card1 and suit_s==suit_f:
-                    
-                    temp=sorted_list[i]
-                    sorted_list[i]=sorted_list[j]
-                    sorted_list[j]=temp
-
-        return sorted_list
-
-    def group_cards(self):
-        list_of_lists = []
-        
-        new_list = []
-        
-        flag = False
-        
-        i = 0
-        
-        self.sort_cards_by_rank_and_value()
-        
-        while i < len(self.cards):
-
-            while self.cards[i].get_suit() == self.cards[i+1].get_suit():
-                new_list.append(self.cards[i])
-                
-                i += 1
-                
-                if i == len(self.cards)-1:
-                    new_list.append(self.cards[i])
-                    
-                    break
-            
-            if i == len(self.cards)-1:
-                list_of_lists.append(new_list)
-                
-                break
-            
-            new_list.append(self.cards[i])
-            
-            list_of_lists.append(new_list)
-            
-            new_list = []
-            
-            i += 1
-            
-            if i >= len(self.cards)-1:
-                new_list.append(self.cards[i])
-                
-                list_of_lists.append(new_list)
-                
-                break
-        
-        return list_of_lists
-
-    def get_three_consecutive(self,new_list):
+    def get_n_consecutive(self,new_list,n):
         helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
         
         flag = False
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-            
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                num_of_tierces = 0
-            
-            if num_of_tierces == 1:
-                flag = True
-                break
-            
-            index += 1
-        
-        if flag == False:
-            return []
-        else:
-            return new_list[index:index+3]
-
-    def get_four_consecutive(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        flag = False
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-            
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                num_of_tierces = 0
-            
-            if num_of_tierces == 2:
-                flag = True
-                break
-            index += 1
-        
-        if flag == False:
-            return []
-        else:
-            return new_list[index-1:index+3]
-
-    def get_five_consecutive(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        flag = False
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-            
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                num_of_tierces = 0
-            
-            if num_of_tierces == 3:
-                flag = True
-                break
-            
-            index += 1
-        
-        if flag == False:
-            return []
-        else:
-            return new_list[index-2:index+3]
-
-    def remove_three_consecutive(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-            
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                num_of_tierces = 0
-            
-            if num_of_tierces == 1:
-                break
-            
-            index += 1
-        
-        return new_list[:index]+new_list[index+3:]
-
-    def remove_four_consecutive(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-            
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                num_of_tierces = 0
-            
-            if num_of_tierces == 2:
-                break
-            
-            index += 1
-        
-        return new_list[:index-1]+new_list[index+3:]
-
-    def remove_five_consecutive(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-            
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                num_of_tierces = 0
-            
-            if num_of_tierces == 3:
-                break
-            
-            index += 1
-        
-        return new_list[:index-2]+new_list[index+3:]
-
-    def find_consecutive_tierces(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        index = 0
-        
-        length = len(new_list)
-        
-        num_of_tierces = 0
-        
-        while index < length - 2:
-            card1_value = new_list[index].get_value()
-            card2_value = new_list[index+1].get_value()
-            card3_value = new_list[index+2].get_value()
-
-            if helping_dictionary[card1_value] + 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] + 1 == helping_dictionary[card3_value]:
-                num_of_tierces += 1
-            else:
-                break
-            if num_of_tierces >= 4:
-                break
-            index += 1
-        return num_of_tierces
-
-    def get_higher_quinte(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
         
         index = len(new_list)-1
+        
+        num_of_tierces = 0
 
-        while index >= 4:
+        while index >= 0:
             card1_value = new_list[index].get_value()
             card2_value = new_list[index-1].get_value()
             card3_value = new_list[index-2].get_value()
-            card4_value = new_list[index-3].get_value()
-            card5_value = new_list[index-4].get_value()
-
-            if helping_dictionary[card1_value] - 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] - 1 == helping_dictionary[card3_value] and helping_dictionary[card3_value] - 1 == helping_dictionary[card4_value] and helping_dictionary[card4_value] - 1 == helping_dictionary[card5_value]:
-                return new_list[index-4:index+1]
             
-            index -= 1
-
-    def remove_higher_quinte(self,new_list):
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        helping_list = self.get_higher_quinte(new_list)
-
-        list_without_quinte = []
-
-        for element in new_list:
-            if element in helping_list:
-                continue
+            if helping_dictionary[card1_value] - 1 == helping_dictionary[card2_value] and helping_dictionary[card2_value] - 1 == helping_dictionary[card3_value]:
+                num_of_tierces += 1
             else:
-                list_without_quinte.append(element)
+                num_of_tierces = 0
+            if num_of_tierces == n:
+                flag = True
+                break
+            index -= 1
+        
+        if flag == False:
+            return []
+        else:
+            return new_list[index-2:index+num_of_tierces]
 
-        return list_without_quinte
+    def get_consecutive_cards(self,list_of_cards,i):
+        result = []
+            
+        while i >= 1:
+            result = self.get_n_consecutive(list_of_cards,i)
+            if result != [] and len(result) >=3 and len(result) <=5:
+                break
+            i -= 1
+
+        return result
 
     def find_consecutive_cards(self):
-        list_of_lists = self.group_cards()
-        
-        helping_dictionary = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-        
-        for list_of_suits in list_of_lists:
+        dict_of_cards = self.group_cards_by_suit()
 
-            new_list = list_of_suits
-            if len(new_list) < 3:
+        for key in dict_of_cards.keys():
+            if len(dict_of_cards[key]) < 3:
                 continue
-
-            result = self.find_consecutive_tierces(new_list)
-
-            while result != 0:
-                if result == 1:
-                    self.repr_of_announcements.append(self.get_three_consecutive(new_list))
-                    
-                    new_list = self.remove_three_consecutive(new_list)
-                    
-                    self.announced_announcements.append('tierce')
-                
-                elif result == 2:
-                    self.repr_of_announcements.append(self.get_four_consecutive(new_list))
-                    
-                    new_list = self.remove_four_consecutive(new_list)
-                    
-                    self.announced_announcements.append('quarte')
-                
-                elif result == 3:
-                    self.repr_of_announcements.append(self.get_five_consecutive(new_list))
-                    
-                    new_list = self.remove_five_consecutive(new_list)
-                    
-                    self.announced_announcements.append('quinte')
-                
-                elif result == 4:
-                    self.repr_of_announcements.append(self.get_higher_quinte(new_list))
-                    
-                    new_list = self.remove_higher_quinte(new_list)
-                    
-                    self.announced_announcements.append('quinte')
-                
-                if len(new_list) < 3:
-                    break
-                
-                result = self.find_consecutive_tierces(new_list)
-
-    def carre_find_function(self):
-        list_find_carre_cards=[]
-        
-        new_list=[]
-        
-        count_of_carre=0
-        
-        sorted_array_by_rank=Announcements.sort_cards_by_value(self)
-        
-        i=0
-        
-        while i<len(sorted_array_by_rank)-3:
-            card1=self[i]
-            card2=self[i+1]
-            card3=self[i+2]
-            card4=self[i+3]
             
-            value1=card1.get_value()
-            value2=card2.get_value()
-            value3=card3.get_value()
-            value4=card4.get_value()
+            list_of_cards = sorted(dict_of_cards[key])
+            i = 8
+            result = self.get_consecutive_cards(list_of_cards,i)
+            if result == []:
+                continue
             
-            if value1!='7' and value1!='8':
-                if value1==value2 and value2==value3 and value3==value4:
-                    count_of_carre+=1
-                    
-                    list_find_carre_cards.append(card1)
-                    list_find_carre_cards.append(card2)
-                    list_find_carre_cards.append(card3)
-                    list_find_carre_cards.append(card4)
-                
-                else:
-                    if count_of_carre==1:
-                        new_list.append(list_find_carre_cards)
-                        
-                        self.announced_announcements.append('carre')
-                        self.repr_of_announcements.append(list_find_carre_cards)
-                        
-                        count_of_carre=0
-                        
-                        list_find_carre_cards=[]
-            i=i+1
-        
-        if count_of_carre==1:
-            new_list.append(list_find_carre_cards)
+            self.repr_of_announcements.append(result)
+            self.announced_announcements.append(lengths_of_announcements[len(result)])
+            list_of_cards = [x for x in list_of_cards if x not in result]
+            dict_of_cards[key] = list_of_cards
+
+
+            if len(dict_of_cards[key]) < 3:
+                continue
+            i = 8-len(result)
             
-            self.announced_announcements.append('carre')
-            self.repr_of_announcements.append(list_find_carre_cards)
-        
-        return new_list
+            result = self.get_consecutive_cards(list_of_cards,i)
+
+            if result == []:
+                continue
+            
+            self.repr_of_announcements.append(result)            
+            self.announced_announcements.append(lengths_of_announcements[len(result)])
+            list_of_cards = [x for x in list_of_cards if x not in result]
+            dict_of_cards[key] = list_of_cards
+
+    def find_carres(self):
+        pass
 
     def check_card_in_two_announcements(self):
         if 'carre' in self.getAnnouncedannouncements():
@@ -576,62 +218,40 @@ class Announcements:
             
             for elem in list_of_announcements:
                 if elem[0].get_value()==elem[1].get_value():
-                    
                     list_of_carres = elem
-                    
                     break
             
             carre_value = list_of_carres[0].get_value()
-            
             flag = False
 
             for announcement in self.getRepresentationOfannouncements():
-                
                 for card in announcement:
                     if carre_value == card.get_value() and announcement != list_of_carres:
-                        
                         flag = True
-                        
                         break
-                #print(announcement)
+
                 if flag == True:
                     if len(announcement) == 3:
                         self.announced_announcements.remove('tierce')
-
                     elif len(announcement) == 4:
                         self.announced_announcements.remove('quarte')
-
                     elif len(announcement) == 5:
                         self.announced_announcements.remove('quinte')
-
                     self.repr_of_announcements.remove(announcement)
 
 
 def main():
-    pass
-'''
-    #announced=Announcements([Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('K','diamonds'),Card('A','diamonds')])
-
-    announced=Announcements([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
-
-    announced.sort_cards_by_rank_and_value()
-    announced.find_consecutive_cards()
-
+    announced=Announcements([Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('K','diamonds'),Card('A','diamonds')])
+    print(announced.find_consecutive_cards())
     print(announced.getRepresentationOfannouncements())
     print(announced.getAnnouncedannouncements())
-
-    print(announced.carre_find_function())
+    print(announced.find_carres())
+    print('===============================================')
+    announced=Announcements([Card('7','diamonds'),Card('7','spades'),Card('7','hearts'),Card('7','clubs'),Card('10','spades'),Card('10','hearts'),Card('10','diamonds'),Card('10','clubs')])
+    print(announced.find_consecutive_cards())
+    print(announced.find_carres())
+    print(announced.getRepresentationOfannouncements())
     print(announced.getAnnouncedannouncements())
-    print(announced.group_cards())
-    print(announced.getRepresentationOfannouncements())
-    print(announced.check_card_in_two_announcements())
-
-    #announced=Announcements([Card('7','diamonds'),Card('8','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','diamonds'),Card('J','diamonds'),Card('K','diamonds'),Card('A','diamonds')])
-
-    announced.find_consecutive_cards()
-
-    print(announced.getRepresentationOfannouncements())
-    print(announced.getAnnouncedannouncements())'''
 
 if __name__=='__main__':
     main()

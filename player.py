@@ -14,7 +14,7 @@ class Player:
     def set_announcements(self,announcements):
         self.__announcements = Announcements(announcements)
         self.__announcements.find_consecutive_cards()
-        self.__announcements.carre_find_function()
+        self.__announcements.find_carres()
         self.__announcements.check_card_in_two_announcements()
 
     def get_belotes(self,contract):
