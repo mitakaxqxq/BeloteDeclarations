@@ -210,7 +210,14 @@ class Announcements:
             dict_of_cards[key] = list_of_cards
 
     def find_carres(self):
-        pass
+        grouped_cards=self.group_cards_by_value()
+        result=[grouped_cards.get(x) for x in grouped_cards if x!='7' and x!='8' and len(grouped_cards.get(x))==4]
+        i=0
+        while i<len(result):
+            self.repr_of_announcements.append(result[i])
+            self.announced_announcements.append('carre')
+            i=i+1
+        return result
 
     def check_card_in_two_announcements(self):
         if 'carre' in self.getAnnouncedannouncements():
