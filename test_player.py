@@ -2,6 +2,7 @@ import unittest
 
 from card import Card
 from player import Player
+from magic_strings import *
 
 class TestPlayer(unittest.TestCase):
 
@@ -19,8 +20,8 @@ class TestPlayer(unittest.TestCase):
 
     def test_raises_exception_when_a_player_has_different_number_of_eight_cards_in_hand(self):
 
-        list_of_cards = [Card('7', 'clubs'), Card('7', 'diamonds'), Card('7', 'hearts'), Card('7', 'spades'),
-                        Card('8', 'clubs'), Card('8', 'diamonds'), Card('8', 'hearts')]
+        list_of_cards = [Card(seven, clubs), Card(seven, diamonds), Card(seven, hearts), Card(seven, spades),
+                        Card(eight, clubs), Card(eight, diamonds), Card(eight, hearts)]
 
         player = Player('Ivan')
 
@@ -53,36 +54,36 @@ class TestPlayer(unittest.TestCase):
 
     def test_if_get_hand_method_returns_correctly_hand_of_player(self):
 
-        list_of_cards = [Card('7', 'clubs'), Card('7', 'diamonds'), Card('7', 'hearts'), Card('7', 'spades'),
-                        Card('8', 'clubs'), Card('8', 'diamonds'), Card('8', 'hearts'),Card('8', 'spades')]
+        list_of_cards = [Card(seven, clubs), Card(seven, diamonds), Card(seven, hearts), Card(seven, spades),
+                        Card(eight, clubs), Card(eight, diamonds), Card(eight, hearts),Card(eight, spades)]
         
         player = Player('Ivan')
         player.set_hand(list_of_cards)
 
-        expected = [Card('7', 'clubs'), Card('7', 'diamonds'), Card('7', 'hearts'), Card('7', 'spades'),
-                        Card('8', 'clubs'), Card('8', 'hearts'), Card('8', 'diamonds'),Card('8', 'spades')]
+        expected = [Card(seven, clubs), Card(seven, diamonds), Card(seven, hearts), Card(seven, spades),
+                        Card(eight, clubs), Card(eight, diamonds), Card(eight, hearts),Card(eight, spades)]
 
         self.assertTrue(expected == player.get_hand(), 'Lists are equal')
 
     def test_if_get_announcements_representation_returns_correctly(self):
 
         player = Player("Ivan")
-        player.set_hand([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+        player.set_hand([Card(jack,diamonds),Card(king,diamonds),Card(nine,diamonds),Card(queen,diamonds),Card(ten,clubs),Card(ten,hearts),Card(ten,spades),Card(ten,diamonds)])
         
         result = player.get_announcements_representation()
 
-        expected = [[Card('10','clubs'),Card('10','diamonds'),Card('10','hearts'),Card('10','spades')]]
+        expected = [[Card(ten,clubs),Card(ten,diamonds),Card(ten,hearts),Card(ten,spades)]]
 
         self.assertEqual(result,expected)
 
     def test_if_get_announced_announcements_returns_correctly(self):
 
         player = Player("Ivan")
-        player.set_hand([Card('J','diamonds'),Card('K','diamonds'),Card('9','diamonds'),Card('Q','diamonds'),Card('10','clubs'),Card('10','hearts'),Card('10','spades'),Card('10','diamonds')])
+        player.set_hand([Card(jack,diamonds),Card(king,diamonds),Card(nine,diamonds),Card(queen,diamonds),Card(ten,clubs),Card(ten,hearts),Card(ten,spades),Card(ten,diamonds)])
         
         result = player.get_announced_announcements()
 
-        expected = ['carre']
+        expected = [carre]
 
         self.assertEqual(result,expected)
 
