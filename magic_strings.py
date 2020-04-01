@@ -1,11 +1,28 @@
-lengths_of_announcements = { 3: 'tierce', 4: 'quarte', 5: 'quinte' }
-
-helping_dictionary_of_values = {'7': 7, '8': 8,'9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-
+seven = '7'
+eight = '8'
+nine = '9'
+ten = '10'
+jack = 'J'
+queen = 'Q'
+king = 'K'
+ace = 'A'
+clubs = 'clubs'
+diamonds = 'diamonds'
+hearts = 'hearts'
+spades = 'spades'
+no_trumps = 'no trumps'
+all_trumps = 'all trumps'
+tierce = 'tierce'
+quarte = 'quarte'
+quinte = 'quinte'
+belote = 'belote'
+carre = 'carre'
+lengths_of_announcements = { 3: tierce, 4: quarte, 5: quinte }
+helping_dictionary_of_values = {seven: 7, eight: 8, nine: 9, ten: 10, jack: 11, queen: 12, king: 13, ace: 14}
 helping_dictionary_of_suits = {'c': 1, 'd': 2, 'h': 3, 's': 4}
-
-helping_dictionary_of_value_representation = {'clubs': 'c','diamonds': 'd','hearts': 'h','spades': 's'}
-
-correct_values = ['7', '8', '9', '10', 'J', 'Q', 'K', 'A']
-        
-correct_suits = ['clubs','diamonds','hearts','spades']
+helping_dictionary_of_suits_representation = {'c': clubs,'d': diamonds,'h': hearts,'s': spades}
+helping_dictionary_of_value_representation = {clubs: 'c',diamonds: 'd',hearts: 'h',spades: 's'}
+correct_values = [seven, eight, nine, ten, jack, queen, king, ace]
+correct_suits = [clubs,diamonds,hearts,spades]
+announcements = [clubs,diamonds,hearts,spades,no_trumps,all_trumps]
+announcements_values = {tierce: 20, quarte: 50, quinte: 100}
