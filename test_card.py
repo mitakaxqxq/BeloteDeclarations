@@ -1,6 +1,6 @@
 import unittest
 from card import Card
-
+from magic_strings import *
 class TestCardValidationOfValues(unittest.TestCase):
 
     def test_validation_raises_exception_when_value_is_not_str(self):
@@ -8,7 +8,7 @@ class TestCardValidationOfValues(unittest.TestCase):
         exc = None
 
         try:
-            card = Card(5,'spades')
+            card = Card(5,spades)
         except Exception as err:
             exc = err
 
@@ -33,7 +33,7 @@ class TestCardValidationOfValues(unittest.TestCase):
         exc = None
 
         try:
-            card = Card('3','clubs')
+            card = Card('3',clubs)
             value=card.value
 
         except Exception as err:
@@ -47,7 +47,7 @@ class TestCardValidationOfValues(unittest.TestCase):
         exc = None
 
         try:
-            card = Card('7','tree')
+            card = Card(seven,'tree')
             value=card.value
 
         except Exception as err:
@@ -58,25 +58,22 @@ class TestCardValidationOfValues(unittest.TestCase):
     
 
     def test_if_cards_are_equal_with_eq_dunder(self):
-        card1=Card('7','clubs')
-        card2=Card('7','clubs')
+        card1=Card(seven,clubs)
+        card2=Card(seven,clubs)
 
         self.assertEqual(card1,card2,'Not equal!')
 
     def test_if_card_is_lt_other_one_and_with_same_suits(self):
-        card1=Card('7','clubs')
-        card2=Card('8','clubs')
+        card1=Card(seven,clubs)
+        card2=Card(eight,clubs)
 
-        self.assertTrue(card1<card2,'Card1 is bigger than card1')
+        self.assertTrue(card1<card2,'Card1 is lesser than Card2')
 
     def test_if_card_is_lt_other_one_with_different_suits(self):
-        card1=Card('7','clubs')
-        card2=Card('8','hearts')
+        card1=Card(seven,clubs)
+        card2=Card(eight,hearts)
 
-        self.assertTrue(card1<card2,'Card1 is bigger than card1')
-
-
-
+        self.assertTrue(card1<card2,'Card1 is lesser than Card2')
 
 
 if __name__ == '__main__':
