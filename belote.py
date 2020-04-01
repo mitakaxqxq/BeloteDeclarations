@@ -4,12 +4,7 @@ from game import Game
 
 def main():
 
-    #unfortunately we ran out of time and the game has four major problems
-    #1. it writes results only for the first team
-    #2. it doesn't display how much each round the score has increased (i think i know where the problem is but it's deadline)
-    #3. we didn't have enough time to create the to_json_file method
-    #4. we didn't have enough time to write more tests for the methods in game.py
-    #and one more thing - the results file is not formatted
+    #just one small thing - the results file is not formatted
 
     team1_name = input('Team 1 name: ')
     
@@ -42,9 +37,9 @@ def main():
         winners[game.play()] += 1
 
     if winners[1] == 2:
-        print('Winner: ',team1)
+        print('Winner: Team ',team1.get_name())
     else:
-        print('Winner: ',team2)
+        print('Winner: Team ',team2.get_name())
 
 if __name__ == '__main__':
     main()
