@@ -15,10 +15,10 @@ class Player:
         self.__announcements = Announcements(announcements)
         self.__announcements.find_consecutive_cards()
         self.__announcements.find_carres()
-        self.__announcements.check_card_in_two_announcements()
+        self.__announcements.check_card_in_carre_and_announcement()
 
     def get_belotes(self,contract):
-        self.__announcements.announce_belote(contract)
+        self.__announcements.find_belotes(contract)
 
     def set_hand(self,cards):
         if len(cards) != 8:
