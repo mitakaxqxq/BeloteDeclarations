@@ -1,4 +1,4 @@
-# BeloteDeclarations
+# Belote Declarations
 
 Belote is one of the most famous card games in Bulgaria. This project is partially belote - the game's scoring is what makes it different from the original.
 
